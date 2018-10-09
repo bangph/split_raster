@@ -24,7 +24,7 @@ if not os.path.isabs(input_directory_path):
     exit(1)
 
 # Collect all raster files by extension (e.g: *.tiff) inside the folder
-raster_files = glob.glob(input_directory_path + "/*" + raster_extension)
+raster_files = sorted(glob.glob(input_directory_path + "/*" + raster_extension))
 
 for raster_file in raster_files:
     print "Splitting tiles for file '{}'...".format(raster_file)
