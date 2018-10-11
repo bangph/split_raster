@@ -31,6 +31,18 @@ out_path = input_directory_path + '/split_output/' + big_file_name + "/"
 if not os.path.exists(out_path):
     os.makedirs(out_path)
 
+# As gdal_retile does not have problem to expand image's boundaries unnecessarily, use it to have the best performance
+command = 'gdal_retile.py -targetDir {} {} -ps {} {} -co "COMPRESS=LZW" -co "PREDICTOR=2" -co "TILED=YES" -v'.format(out_path, big_file_path, tile_size_x, tile_size_y)
+result = os.system(command)
+
+if result != 0:
+    print "Error when retiling big tif file."
+    exit(1)
+
+
+"""
+Using gdal_translate to tile files (not good as the boundaries are extented from original files)
+
 output_filename = 'tile_'
  
 ds = gdal.Open(big_file_path)
@@ -43,4 +55,4 @@ for i in range(0, xsize, tile_size_x):
         tile_file_path = str(out_path) + str(output_filename) + str(i) + "_" + str(j) + ".tif"
         com_string = "gdal_translate -of GTIFF " + ' -co "COMPRESS=LZW" -co "PREDICTOR=2" -co "TILED=YES" -srcwin ' + str(i)+ ", " + str(j) + ", " + str(tile_size_x) + ", " + str(tile_size_y) + " " + big_file_path + " " + tile_file_path
         os.system(com_string)
-
+"""
