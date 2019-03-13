@@ -1,6 +1,6 @@
 import os
 import sys
-import glob
+import glob2
 
 # Author: Bang Pham Huu - https://github.com/bangph
 # Split all rasters in an input folder to different split output folders containing tile size 20000 x 20000
@@ -24,7 +24,12 @@ if not os.path.isabs(input_directory_path):
     exit(1)
 
 # Collect all raster files by extension (e.g: *.tiff) inside the folder
-raster_files = sorted(glob.glob(input_directory_path + "/*" + raster_extension))
+glob_path = input_directory_path + "/*" + raster_extension
+raster_files = sorted(glob2.glob(glob_path))
+
+if len(raster_files) == 0:
+    print "No input files from glob path '{}'.".format(glob_path)
+    exit(1)
 
 for raster_file in raster_files:
     print "Splitting tiles for file '{}'...".format(raster_file)

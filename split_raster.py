@@ -1,6 +1,7 @@
 import os
 import sys
 import gdal
+import subprocess
 
 # Author: Bang Pham Huu - https://github.com/bangph
 # Split big raster which rasdaman cannot import to tile with size 20000 x 20000
@@ -33,10 +34,11 @@ if not os.path.exists(out_path):
 
 # As gdal_retile does not have problem to expand image's boundaries unnecessarily, use it to have the best performance
 command = 'gdal_retile.py -targetDir {} {} -ps {} {} -co "COMPRESS=LZW" -co "PREDICTOR=2" -co "TILED=YES" -v'.format(out_path, big_file_path, tile_size_x, tile_size_y)
-result = os.system(command)
+p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+output, error = p.communicate()
 
-if result != 0:
-    print "Error when retiling big tif file."
+if p.returncode != 0:
+    print "***Error*** when retiling big tif file. Reason: " + error
     exit(1)
 
 
