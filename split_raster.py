@@ -27,7 +27,7 @@ input_directory_path = os.path.dirname(big_file_path)
 big_file_name = os.path.splitext(os.path.basename(big_file_path))[0]
  
 # Create output folder to store tiles of this big tiff file
-out_path = input_directory_path + '/split_output/' + big_file_name + "/"
+out_path = input_directory_path + '/split_output/' + big_file_name.rsplit(".")[0] + "/"
 if not os.path.exists(out_path):
     os.makedirs(out_path)
 
