@@ -40,6 +40,8 @@ output, error = p.communicate()
 if p.returncode != 0:
     print "***Error*** when retiling big tif file. Reason: " + error
     exit(1)
+else:
+    print "Done for file '" + big_file_path + "'."
 
 
 """
