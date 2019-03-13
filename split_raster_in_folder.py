@@ -29,7 +29,7 @@ raster_files = sorted(glob.glob(input_directory_path + "/*" + raster_extension))
 for raster_file in raster_files:
     print "Splitting tiles for file '{}'...".format(raster_file)
     print ""
-    command = "python {}/split_raster.py {}".format(script_dir, raster_file)
+    command = "nohup python {}/split_raster.py {} &".format(script_dir, raster_file)
     result = os.system(command)
     if result != 0:
         print "Error splitting tiles."
